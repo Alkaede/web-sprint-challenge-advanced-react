@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import {useForm} from '../hooks/useForm';
+
 
 const initialValue = {
   firstName: "",
@@ -13,28 +15,24 @@ const initialValue = {
 // Build out the logic needed for a form custom hook (see the useForm.js file)
 // and replace the necessary stateful logic from CheckoutForm with the hook
 
-const CheckoutForm = (props) => {
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [values, setValues] = useState(initialValue);
+const CheckoutForm = ({errors}) => {
+  // moved all states into useForm.js
+  // including success
+  const [values, handleChanges, handleSubmit, success] = useForm(initialValue);
 
-  const handleChanges = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setShowSuccessMessage(true);
-  };
+  // setting our values to the value state from custom hook
+  const {firstName, lastName, address, city, state, zip} = values;
 
   return (
     <>
       <form onSubmit={handleSubmit}>
+        {errors.length > 0 && <div>THERE ARE ERRORS</div>}
         <h2>Checkout Form</h2>
         <label>
           First Name:
           <input
             name="firstName"
-            value={values.firstName}
+            value={firstName}
             onChange={handleChanges}
           />
         </label>
@@ -42,7 +40,7 @@ const CheckoutForm = (props) => {
           Last Name:
           <input
             name="lastName"
-            value={values.lastName}
+            value={lastName}
             onChange={handleChanges}
           />
         </label>
@@ -50,26 +48,26 @@ const CheckoutForm = (props) => {
           Address:
           <input
             name="address"
-            value={values.address}
+            value={address}
             onChange={handleChanges}
           />
         </label>
         <label>
           City:
-          <input name="city" value={values.city} onChange={handleChanges} />
+          <input name="city" value={city} onChange={handleChanges} />
         </label>
         <label>
           State:
-          <input name="state" value={values.state} onChange={handleChanges} />
+          <input name="state" value={state} onChange={handleChanges} />
         </label>
         <label>
           Zip:
-          <input name="zip" value={values.zip} onChange={handleChanges} />
+          <input name="zip" value={zip} onChange={handleChanges} />
         </label>
         <button>Checkout</button>
       </form>
 
-      {showSuccessMessage && (
+      {success && (
         <div className="success-message" data-testid="successMessage">
           <p>
             You have ordered some plants! Woo-hoo! <span role="img">🎉</span>
@@ -78,11 +76,11 @@ const CheckoutForm = (props) => {
           <br />
           <br />
           <p>
-            {values.firstName} {values.lastName}
+            {firstName} {lastName}
           </p>
-          <p>{values.address}</p>
+          <p>{address}</p>
           <p>
-            {values.city}, {values.state} {values.zip}
+            {city}, {state} {zip}
           </p>
         </div>
       )}
