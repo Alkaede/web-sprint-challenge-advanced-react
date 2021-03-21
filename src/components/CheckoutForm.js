@@ -15,7 +15,7 @@ const initialValue = {
 // Build out the logic needed for a form custom hook (see the useForm.js file)
 // and replace the necessary stateful logic from CheckoutForm with the hook
 
-const CheckoutForm = ({errors}) => {
+const CheckoutForm = () => {
   // moved all states into useForm.js
   // including success
   const [values, handleChanges, handleSubmit, success] = useForm(initialValue);
@@ -26,7 +26,6 @@ const CheckoutForm = ({errors}) => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        {errors.length > 0 && <div>THERE ARE ERRORS</div>}
         <h2>Checkout Form</h2>
         <label>
           First Name:

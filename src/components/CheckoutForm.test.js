@@ -6,13 +6,13 @@ import userEvent from '@testing-library/user-event';
 // Write up the two tests here and make sure they are testing what the title shows
 
 test("form header renders", () => {
-  render(<CheckoutForm errors={[]}/>);
+  render(<CheckoutForm/>);
   const header = screen.getByText('Checkout Form');
   expect(header).toBeTruthy();
 });
 
 test("form shows success message on submit with form details", () => {
-  render(<CheckoutForm errors={[]}/>)
+  render(<CheckoutForm/>)
   const firstName = screen.getByLabelText('First Name:');
   userEvent.type(firstName, 'First');
 
